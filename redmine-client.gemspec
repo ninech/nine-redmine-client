@@ -22,6 +22,7 @@ Gem::Specification.new do |s|
 
   s.add_runtime_dependency 'httparty'
   s.add_runtime_dependency 'webmock', '~> 1.18.0'
-  s.add_runtime_dependency 'activesupport', '> 3.0.0'
+  s.add_runtime_dependency 'activesupport', '> 4.0.0'
+  s.add_runtime_dependency 'activemodel', '> 4.0.0'
   s.add_runtime_dependency 'pry', '~> 0.10.0'
 end

@@ -1,5 +1,4 @@
 require 'redmine_client'
-require 'redmine_client/webmock_templates'
 
 RedmineClient.configure do |config|
   config.api_url = 'http://redmine.test'

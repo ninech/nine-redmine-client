@@ -19,13 +19,9 @@ Gem::Specification.new do |s|
 
   s.add_development_dependency 'rake', '~> 10.0'
   s.add_development_dependency 'rspec', '~> 3.0'
-  s.add_development_dependency 'simplecov', '~> 0.9.0'
 
-  s.add_runtime_dependency 'faraday', '~> 0.9.0'
-  s.add_runtime_dependency 'faraday_middleware', '~> 0.9.1'
+  s.add_runtime_dependency 'httparty'
   s.add_runtime_dependency 'webmock', '~> 1.18.0'
   s.add_runtime_dependency 'activesupport', '> 3.0.0'
   s.add_runtime_dependency 'pry', '~> 0.10.0'
-  s.add_runtime_dependency 'rest-in-peace', '~> 4.0.0'
-  s.add_runtime_dependency 'excon', '~> 0.41.0'
 end

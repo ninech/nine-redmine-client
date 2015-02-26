@@ -2,7 +2,7 @@ require 'faraday'
 
 module RedmineClient
   class AcceptLanguageMiddleware < Faraday::Middleware
-    DEFAULT_LOCALE = 'de'
+    DEFAULT_LOCALE = 'en'
 
     def initialize(app, options={})
       @app = app
@@ -14,9 +14,11 @@ module RedmineClient
     end
 
     def defined_locale
-      I18n.locale.to_s
-    rescue
-      DEFAULT_LOCALE
+      if defined?(I18n) && I18n.respond_to?(:locale)
+        I18n.locale.to_s
+      else
+        DEFAULT_LOCALE
+      end
     end
   end
 

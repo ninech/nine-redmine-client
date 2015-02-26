@@ -13,8 +13,11 @@ Dir.chdir(APP_ROOT)
 require 'bundler/setup'
 require 'redmine-client'
 
+fail 'REDMINE_API_KEY environment variable not set!' unless ENV['REDMINE_API_KEY']
+
 RedmineClient::API.configure do |config|
   config.api_url = 'http://redmine.dev/'
+  config.api_key = ENV['REDMINE_API_KEY']
 end
 
 binding.pry

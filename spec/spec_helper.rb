@@ -6,8 +6,6 @@ RedmineClient::API.configure do |config|
 end
 
 require 'pry'
-require 'webmock/rspec'
-WebMock.disable_net_connect!
 
 Dir["./spec/support/**/*.rb"].sort.each { |f| require f}
 

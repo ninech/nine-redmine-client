@@ -1,9 +1,11 @@
 require 'redmine_client'
 
-RedmineClient.configure do |config|
-  config.api_url = 'http://redmine.test'
+RedmineClient::API.configure do |config|
+  config.url = 'http://redmine.test'
+  config.token = 'abcd'
 end
 
+require 'pry'
 require 'webmock/rspec'
 WebMock.disable_net_connect!
 

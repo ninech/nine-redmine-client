@@ -1,6 +1,6 @@
 require 'httparty'
 require 'redmine_client/api'
-require 'redmine_client/client'
+require 'redmine_client/base'
 require 'redmine_client/issue'
 
 module RedmineClient

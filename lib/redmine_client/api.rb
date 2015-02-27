@@ -8,7 +8,7 @@ module RedmineClient
 
     def self.configure
       yield config
-      Client.setup
+      Base.setup
     end
   end
 

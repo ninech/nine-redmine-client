@@ -46,7 +46,12 @@ module RedmineClient
 
       def bad_response(response, params={})
         if response.class == HTTParty::Response
-          raise HTTParty::ResponseError, response
+          case response.code
+          when 404
+            raise ResourceNotFoundException, 'Resource not found.'
+          else
+            raise HTTParty::ResponseError, response
+          end
         end
         raise StandardError, 'Unknown error'
       end

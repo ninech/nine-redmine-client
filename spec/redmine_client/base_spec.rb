@@ -14,7 +14,7 @@ RSpec.describe RedmineClient::Base do
   describe '.bad_response' do
     it 'raises a response error when given a correct response' do
       expect do
-        response = instance_double('HTTParty::Response', class: HTTParty::Response)
+        response = instance_double('HTTParty::Response', class: HTTParty::Response, code: 500)
         RedmineClient::Base.bad_response(response)
       end.to raise_error HTTParty::ResponseError
     end
@@ -23,6 +23,13 @@ RSpec.describe RedmineClient::Base do
       expect do
         RedmineClient::Base.bad_response(double)
       end.to raise_error StandardError
+    end
+
+    it 'raises the correct error when the resource could not be found' do
+      response = instance_double('HTTParty::Response', class: HTTParty::Response, code: 404)
+      expect do
+        RedmineClient::Base.bad_response(response)
+      end.to raise_error RedmineClient::ResourceNotFoundException
     end
   end
 

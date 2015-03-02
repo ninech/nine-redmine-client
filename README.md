@@ -1,5 +1,7 @@
 # Redmine Ruby Client
 
+[![Build Status](https://travis-ci.org/ninech/redmine-client.svg?branch=master)](https://travis-ci.org/ninech/redmine-client)
+
 Ruby client library for the Redmine API.
 
 ## Configuration

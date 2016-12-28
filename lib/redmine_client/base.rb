@@ -19,7 +19,7 @@ module RedmineClient
     def update(attrs = {})
       resource = put "#{resource_path}/#{id}.json", body: { resource_name => attrs }
       if resource.success?
-        data = Hash[attrs.map { |k, v| [k.to_sym, v] }]
+        data = Hash[attrs.map { |key, value| [key.to_sym, value] }]
         @table.merge!(data)
       else
         false
@@ -68,8 +68,8 @@ module RedmineClient
       def create(attrs = {})
         resource = post "#{resource_path}.json", body: { resource_name => attrs }
         if resource.success?
-         data = attrs.merge resource[resource_name]
-         new(data)
+          data = attrs.merge resource[resource_name]
+          new(data)
         else
           bad_response(resource, attrs)
         end

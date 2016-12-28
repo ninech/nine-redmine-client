@@ -2,11 +2,10 @@ require 'ostruct'
 require 'forwardable'
 
 module RedmineClient
-
   HEADERS = {
     'User-Agent'    => 'Ruby.Redmine.Client',
-    'Accept'        => "application/json",
-    'Content-Type'  => "application/x-www-form-urlencoded"
+    'Accept'        => 'application/json',
+    'Content-Type'  => 'application/x-www-form-urlencoded',
   }.freeze
 
   class Base < OpenStruct
@@ -20,7 +19,7 @@ module RedmineClient
     def update(attrs = {})
       resource = put "#{resource_path}/#{id}.json", body: { resource_name => attrs }
       if resource.success?
-        data = Hash[attrs.map {|k, v| [k.to_sym, v] }]
+        data = Hash[attrs.map { |k, v| [k.to_sym, v] }]
         @table.merge!(data)
       else
         false
@@ -44,16 +43,21 @@ module RedmineClient
         klass.downcase
       end
 
-      def bad_response(response, params={})
+      def bad_response(response, _params = {})
         if response.class == HTTParty::Response
           case response.code
           when 404
-            raise ResourceNotFoundException, 'Resource not found.'
+            fail Errors::ResourceNotFoundException
+          when 422
+            fail Errors::UnprocessableEntityException, response
+          when 500
+            fail Errors::InternalErrorException
           else
-            raise HTTParty::ResponseError, response
+            fail HTTParty::ResponseError, response
           end
         end
-        raise StandardError, 'Unknown error'
+
+        fail StandardError, 'Unknown error'
       end
 
       def find(id)
@@ -64,8 +68,8 @@ module RedmineClient
       def create(attrs = {})
         resource = post "#{resource_path}.json", body: { resource_name => attrs }
         if resource.success?
-          data = attrs.merge resource[resource_name]
-          new(data)
+         data = attrs.merge resource[resource_name]
+         new(data)
         else
           bad_response(resource, attrs)
         end

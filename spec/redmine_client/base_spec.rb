@@ -12,24 +12,50 @@ RSpec.describe RedmineClient::Base do
   end
 
   describe '.bad_response' do
-    it 'raises a response error when given a correct response' do
-      expect do
-        response = instance_double('HTTParty::Response', class: HTTParty::Response, code: 500)
-        RedmineClient::Base.bad_response(response)
-      end.to raise_error HTTParty::ResponseError
+    subject { described_class.bad_response(response) }
+
+    context 'valid response object' do
+      let(:response) { instance_double('HTTParty::Response', class: HTTParty::Response, code: 500) }
+
+      it 'raises a response error' do
+        expect { subject }.to raise_error RedmineClient::Errors::InternalErrorException
+      end
     end
 
-    it 'raises an standard error in all other cases' do
-      expect do
-        RedmineClient::Base.bad_response(double)
-      end.to raise_error StandardError
+    context 'unknown error' do
+      let(:response) { double }
+
+      it 'raises a standard error' do
+        expect { subject }.to raise_error StandardError
+      end
     end
 
-    it 'raises the correct error when the resource could not be found' do
-      response = instance_double('HTTParty::Response', class: HTTParty::Response, code: 404)
-      expect do
-        RedmineClient::Base.bad_response(response)
-      end.to raise_error RedmineClient::ResourceNotFoundException
+    context 'resource not found' do
+      let(:response) { instance_double('HTTParty::Response', class: HTTParty::Response, code: 404) }
+
+      it 'raises the correct error' do
+        expect { subject }.to raise_error RedmineClient::Errors::ResourceNotFoundException
+      end
+    end
+
+    context 'Unprocessable entity error' do
+      let(:response) { instance_double('HTTParty::Response', class: HTTParty::Response, code: 422) }
+
+      before do
+        allow(response).to receive(:parsed_response).
+          and_return('errors' => ['a is bad', 'b is bad'])
+      end
+
+      it 'raises the correct error' do
+        expect { subject }.to raise_error RedmineClient::Errors::UnprocessableEntityException
+      end
+
+      it 'displays a human-readable error message' do
+        expect { subject }.to raise_error(
+          RedmineClient::Errors::UnprocessableEntityException,
+          'a is bad, b is bad'
+        )
+      end
     end
   end
 
@@ -38,13 +64,16 @@ RSpec.describe RedmineClient::Base do
 
     it 'starts a get request with the correct path' do
       allow(RedmineClient::Base).to receive(:new)
+
       expect(RedmineClient::Base).to receive(:get).with('/bases/1.json').and_return double(ok?: true, :[] => '')
+
       RedmineClient::Base.find(1)
     end
 
     it 'creates a new instance when the response is ok' do
       response = double(ok?: true, :[] => {})
       allow(RedmineClient::Base).to receive(:get).and_return(response)
+
       expect(RedmineClient::Base).to receive(:new).with({})
       RedmineClient::Base.find(1)
     end

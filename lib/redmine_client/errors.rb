@@ -1,5 +1,11 @@
 module RedmineClient
   module Errors
+    class AccessDeniedException < StandardError
+      def to_s
+        'Access denied.'
+      end
+    end
+
     class ResourceNotFoundException < StandardError
       def to_s
         'Resource not found.'

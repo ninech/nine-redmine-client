@@ -46,6 +46,8 @@ module RedmineClient
       def bad_response(response, _params = {})
         if response.class == HTTParty::Response
           case response.code
+          when 403
+            fail Errors::AccessDeniedException
           when 404
             fail Errors::ResourceNotFoundException
           when 422

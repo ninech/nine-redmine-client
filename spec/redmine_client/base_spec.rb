@@ -30,6 +30,14 @@ RSpec.describe RedmineClient::Base do
       end
     end
 
+    context 'access denied' do
+      let(:response) { instance_double('HTTParty::Response', class: HTTParty::Response, code: 403) }
+
+      it 'raises the correct error' do
+        expect { subject }.to raise_error RedmineClient::Errors::AccessDeniedException
+      end
+    end
+
     context 'resource not found' do
       let(:response) { instance_double('HTTParty::Response', class: HTTParty::Response, code: 404) }
 

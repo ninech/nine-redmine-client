@@ -3,7 +3,7 @@
 $:.push File.expand_path('../lib', __FILE__)
 
 Gem::Specification.new do |s|
-  s.name        = 'redmine-client'
+  s.name        = 'nine-redmine-client'
   s.version     = File.read(File.expand_path('../VERSION', __FILE__)).strip
   s.authors     = ['nine.ch Development-Team']
   s.email       = ['development@nine.ch']

@@ -11,7 +11,7 @@ $:.unshift File.join(APP_ROOT, 'vendor/bundle')
 Dir.chdir(APP_ROOT)
 
 require 'bundler/setup'
-require 'redmine-client'
+require 'nine-redmine-client'
 
 fail 'REDMINE_API_KEY environment variable not set!' unless ENV['REDMINE_API_KEY']
 

@@ -26,6 +26,11 @@ module RedmineClient
       end
     end
 
+    def destroy
+      resource = delete "#{resource_path}/#{id}.json"
+      resource.success?
+    end
+
     class << self
       def setup
         base_uri RedmineClient::API.config.url

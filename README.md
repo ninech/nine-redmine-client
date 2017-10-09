@@ -28,3 +28,9 @@ RedmineClient::Issue.create subject: 'Do this and that', project_id: 1
 issue = RedmineClient::Issue.find(1)
 issue.update subject: 'New Subject'
 ```
+
+## About
+
+This gem is currently maintained and funded by [nine](https://nine.ch).
+
+[![logo of the company 'nine'](https://logo.apps.at-nine.ch/Dmqied_eSaoBMQwk3vVgn4UIgDo=/trim/500x0/logo_claim.png)](https://www.nine.ch)

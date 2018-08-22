@@ -81,6 +81,11 @@ module RedmineClient
           bad_response(resource, attrs)
         end
       end
+
+      def all
+        resource = get "#{resource_path}.json"
+        resource.ok? ? new(resource[resource_name]) : bad_response(resource, id)
+      end
     end
   end
 end

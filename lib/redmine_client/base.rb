@@ -48,6 +48,12 @@ module RedmineClient
         klass.downcase
       end
 
+      def plural_resource_name
+        klass = name.split('::').last
+        klass[0] = klass[0].chr.downcase
+        klass.end_with?('y') ? "#{klass.chop}ies" : "#{klass}s"
+      end
+
       def bad_response(response, _params = {})
         if response.class == HTTParty::Response
           case response.code
@@ -84,7 +90,7 @@ module RedmineClient
 
       def all
         resource = get "#{resource_path}.json"
-        resource.ok? ? new(resource[resource_name]) : bad_response(resource, id)
+        resource.ok? ? resource[plural_resource_name].map {|e| new(e)} : bad_response(resource, id)
       end
     end
   end

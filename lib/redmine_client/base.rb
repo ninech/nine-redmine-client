@@ -83,6 +83,7 @@ module RedmineClient
         if resource.success?
           data = attrs.merge resource[resource_name]
           new(data)
+          resource
         else
           bad_response(resource, attrs)
         end

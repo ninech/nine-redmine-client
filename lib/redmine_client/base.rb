@@ -74,11 +74,13 @@ module RedmineClient
       end
 
       def find(id)
+        headers['Content-Type'] = 'application/x-www-form-urlencoded'
         resource = get "#{resource_path}/#{id}.json"
         resource.ok? ? new(resource[resource_name]) : bad_response(resource, id)
       end
 
       def create(attrs = {})
+        headers['Content-Type'] = 'application/x-www-form-urlencoded'
         resource = post "#{resource_path}.json", body: { resource_name => attrs }
         if resource.success?
           data = attrs.merge resource[resource_name]
@@ -90,6 +92,7 @@ module RedmineClient
       end
 
       def all
+        headers['Content-Type'] = 'application/x-www-form-urlencoded'
         resource = get "#{resource_path}.json"
         resource.ok? ? resource[plural_resource_name].map {|e| new(e)} : bad_response(resource, id)
       end

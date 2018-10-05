@@ -3,9 +3,10 @@ require 'forwardable'
 
 module RedmineClient
   HEADERS = {
-    'User-Agent'    => 'Ruby.Redmine.Client',
-    'Accept'        => 'application/json',
-    'Content-Type'  => 'application/x-www-form-urlencoded',
+    'User-Agent'            => 'Ruby.Redmine.Client',
+    'Accept'                => 'application/json',
+    'Content-Type'          => 'application/x-www-form-urlencoded',
+    'X-Redmine-Switch-User' => 'admin'
   }.freeze
 
   class Base < OpenStruct

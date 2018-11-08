@@ -95,7 +95,7 @@ module RedmineClient
       def all
         headers['Content-Type'] = 'application/x-www-form-urlencoded'
         resource = get "#{resource_path}.json"
-        resource.ok? ? resource[plural_resource_name].map {|e| new(e)} : bad_response(resource, id)
+        resource.ok? ? resource[plural_resource_name].map {|e| new(e)} : bad_response(resource)
       end
     end
   end
